@@ -4,6 +4,9 @@ import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 
 public interface BeerBuilderV1 {
+
+    BeerBuilderV1 fromBeer(BeerV1 beer);
+
     BeerBuilderV1 withId(String id);
 
     BeerBuilderV1 withName(String name);

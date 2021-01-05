@@ -6,14 +6,20 @@ import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 
 public class BeerBuilderImplV1 implements BeerBuilderV1 {
-    protected final MutableBeerV1 beer;
+    protected MutableBeerV1 beer;
 
     private BeerBuilderImplV1() {
         this.beer = new MutableBeerV1();
     }
 
-    public BeerBuilderV1 builder() {
+    public static BeerBuilderV1 builder() {
         return new BeerBuilderImplV1();
+    }
+
+    @Override
+    public BeerBuilderV1 fromBeer(BeerV1 beer) {
+        this.beer = new MutableBeerV1(beer);
+        return this;
     }
 
     @Override
