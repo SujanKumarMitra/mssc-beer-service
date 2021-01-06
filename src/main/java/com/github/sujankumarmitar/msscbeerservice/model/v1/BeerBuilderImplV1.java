@@ -41,7 +41,7 @@ public class BeerBuilderImplV1 implements BeerBuilderV1 {
     }
 
     @Override
-    public BeerBuilderV1 withUpc(Long upc) {
+    public BeerBuilderV1 withUpc(String upc) {
         beer.setUpc(upc);
         return this;
     }
@@ -80,7 +80,7 @@ public class BeerBuilderImplV1 implements BeerBuilderV1 {
         private String id;
         private String name;
         private BeerStyleV1 style;
-        private Long upc;
+        private String upc;
         private BigDecimal price;
         private Integer quantityOnHand;
         private ZonedDateTime createdAt;
@@ -105,7 +105,7 @@ public class BeerBuilderImplV1 implements BeerBuilderV1 {
         public MutableBeerV1(String id,
                              String name,
                              BeerStyleV1 style,
-                             Long upc,
+                             String upc,
                              BigDecimal price,
                              Integer quantityOnHand,
                              ZonedDateTime createdAt,
@@ -148,11 +148,11 @@ public class BeerBuilderImplV1 implements BeerBuilderV1 {
         }
 
         @Override
-        public Long getUpc() {
+        public String getUpc() {
             return upc;
         }
 
-        public void setUpc(Long upc) {
+        public void setUpc(String upc) {
             this.upc = upc;
         }
 

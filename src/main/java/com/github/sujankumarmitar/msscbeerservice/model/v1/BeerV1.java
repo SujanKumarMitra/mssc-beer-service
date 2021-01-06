@@ -11,7 +11,7 @@ public interface BeerV1 {
 
     BeerStyleV1 getStyle();
 
-    Long getUpc();
+    String getUpc();
 
     BigDecimal getPrice();
 

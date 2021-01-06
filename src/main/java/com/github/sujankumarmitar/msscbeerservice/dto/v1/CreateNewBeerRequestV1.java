@@ -10,7 +10,7 @@ public class CreateNewBeerRequestV1 implements BeerV1 {
 
     private String name;
     private BeerStyleV1 style;
-    private Long upc;
+    private String upc;
     private BigDecimal price;
     private Integer quantityOnHand;
 
@@ -51,11 +51,11 @@ public class CreateNewBeerRequestV1 implements BeerV1 {
     }
 
     @Override
-    public Long getUpc() {
+    public String getUpc() {
         return upc;
     }
 
-    public void setUpc(Long upc) {
+    public void setUpc(String upc) {
         this.upc = upc;
     }
 

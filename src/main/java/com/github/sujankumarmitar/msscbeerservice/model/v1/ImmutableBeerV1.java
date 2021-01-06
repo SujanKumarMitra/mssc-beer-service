@@ -10,7 +10,7 @@ public class ImmutableBeerV1 implements BeerV1 {
     private final String id;
     private final String name;
     private final BeerStyleV1 style;
-    private final Long upc;
+    private final String upc;
     private final BigDecimal price;
     private final Integer quantityOnHand;
     private final ZonedDateTime createdAt;
@@ -32,7 +32,7 @@ public class ImmutableBeerV1 implements BeerV1 {
     public ImmutableBeerV1(String id,
                            String name,
                            BeerStyleV1 style,
-                           Long upc,
+                           String upc,
                            BigDecimal price,
                            Integer quantityOnHand,
                            ZonedDateTime createdAt,
@@ -63,7 +63,7 @@ public class ImmutableBeerV1 implements BeerV1 {
     }
 
     @Override
-    public Long getUpc() {
+    public String getUpc() {
         return upc;
     }
 

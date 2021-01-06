@@ -27,7 +27,7 @@ public class BeerEntityV1 implements BeerV1, Serializable {
     private BeerStyleV1 style;
 
     @Column(name = "upc", unique = true)
-    private Long upc;
+    private String upc;
 
     @Column(name = "price")
     private BigDecimal price;
@@ -48,7 +48,7 @@ public class BeerEntityV1 implements BeerV1, Serializable {
     public BeerEntityV1(String id,
                         String name,
                         BeerStyleV1 style,
-                        Long upc,
+                        String upc,
                         BigDecimal price,
                         Integer quantityOnHand,
                         ZonedDateTime createdAt,
@@ -104,11 +104,11 @@ public class BeerEntityV1 implements BeerV1, Serializable {
     }
 
     @Override
-    public Long getUpc() {
+    public String getUpc() {
         return upc;
     }
 
-    public void setUpc(Long upc) {
+    public void setUpc(String upc) {
         this.upc = upc;
     }
 

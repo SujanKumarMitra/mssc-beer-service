@@ -51,7 +51,7 @@ class BeerControllerV1Test {
         request.setName("beer name");
         request.setPrice(new BigDecimal("100.12"));
         request.setStyle(PILSNER);
-        request.setUpc(12345678L);
+        request.setUpc("12345678");
         request.setQuantityOnHand(1000);
 
         MvcResult mvcResult = mockMvc

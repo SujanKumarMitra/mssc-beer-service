@@ -13,7 +13,7 @@ public interface BeerBuilderV1 {
 
     BeerBuilderV1 withStyle(BeerStyleV1 style);
 
-    BeerBuilderV1 withUpc(Long upc);
+    BeerBuilderV1 withUpc(String upc);
 
     BeerBuilderV1 withPrice(BigDecimal price);
 
