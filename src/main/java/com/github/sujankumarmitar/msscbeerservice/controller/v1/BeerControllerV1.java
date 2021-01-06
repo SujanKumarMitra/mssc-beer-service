@@ -6,6 +6,7 @@ import com.github.sujankumarmitar.msscbeerservice.model.v1.BeerV1;
 import com.github.sujankumarmitar.msscbeerservice.service.v1.BeerServiceV1;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.ZoneId;
@@ -35,7 +36,7 @@ public class BeerControllerV1 {
     @PostMapping
     public ResponseEntity<CreateNewBeerResponseV1> createBeer(
             @RequestParam(name = "zoneId", defaultValue = "Asia/Kolkata") ZoneId zoneId,
-            @RequestBody CreateNewBeerRequestV1 newBeer) {
+            @RequestBody @Validated CreateNewBeerRequestV1 newBeer) {
 
         BeerV1 createdBeer = beerService.createBeer(zoneId, newBeer);
 
@@ -48,7 +49,7 @@ public class BeerControllerV1 {
     public ResponseEntity<Void> updateBeer(
             @RequestParam(name = "zoneId", defaultValue = "Asia/Kolkata") ZoneId zoneId,
             @PathVariable String beerId,
-            @RequestBody UpdateBeerRequestV1 updateBeer) {
+            @RequestBody @Validated UpdateBeerRequestV1 updateBeer) {
         updateBeer.setId(beerId);
         beerService.updateBeer(zoneId, updateBeer);
 

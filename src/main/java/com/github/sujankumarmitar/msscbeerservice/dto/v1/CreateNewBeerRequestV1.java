@@ -3,15 +3,26 @@ package com.github.sujankumarmitar.msscbeerservice.dto.v1;
 import com.github.sujankumarmitar.msscbeerservice.model.v1.BeerStyleV1;
 import com.github.sujankumarmitar.msscbeerservice.model.v1.BeerV1;
 
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 
 public class CreateNewBeerRequestV1 implements BeerV1 {
 
+    @NotBlank(message = "name can't be blank")
     private String name;
+
+    @NotNull(message = "style can't be null")
     private BeerStyleV1 style;
+
+    @NotBlank
+    @Size(min = 13, max = 13, message = "upc code must be 13 digit")
     private String upc;
+
+    @PositiveOrZero(message = "price can't be negative")
     private BigDecimal price;
+
+    @PositiveOrZero(message = "price can't be negative")
     private Integer quantityOnHand;
 
     public CreateNewBeerRequestV1() {
