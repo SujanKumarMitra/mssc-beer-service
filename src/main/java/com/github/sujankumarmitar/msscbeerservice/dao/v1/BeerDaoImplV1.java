@@ -37,7 +37,15 @@ public class BeerDaoImplV1 implements BeerDaoV1 {
         Optional<BeerEntityV1> mightHaveBeer = repository.findById(beer.getId());
         if (mightHaveBeer.isEmpty())
             return false;
-        repository.save(new BeerEntityV1(beer));
+        BeerEntityV1 savedBeer = mightHaveBeer.get();
+        BeerEntityV1 updateBeer = new BeerEntityV1(savedBeer);
+
+        updateBeer.setName(beer.getName());
+        updateBeer.setStyle(beer.getStyle());
+        updateBeer.setPrice(beer.getPrice());
+        updateBeer.setLastModifiedAt(beer.getLastModifiedAt());
+
+        repository.save(updateBeer);
         return true;
     }
 

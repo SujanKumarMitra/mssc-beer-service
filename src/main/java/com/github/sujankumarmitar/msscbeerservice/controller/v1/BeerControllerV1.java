@@ -1,9 +1,6 @@
 package com.github.sujankumarmitar.msscbeerservice.controller.v1;
 
-import com.github.sujankumarmitar.msscbeerservice.dto.v1.BeerNotFoundResponseV1;
-import com.github.sujankumarmitar.msscbeerservice.dto.v1.CreateNewBeerRequestV1;
-import com.github.sujankumarmitar.msscbeerservice.dto.v1.CreateNewBeerResponseV1;
-import com.github.sujankumarmitar.msscbeerservice.dto.v1.GetBeerResponseV1;
+import com.github.sujankumarmitar.msscbeerservice.dto.v1.*;
 import com.github.sujankumarmitar.msscbeerservice.exception.v1.BeerNotFoundExceptionV1;
 import com.github.sujankumarmitar.msscbeerservice.model.v1.BeerV1;
 import com.github.sujankumarmitar.msscbeerservice.service.v1.BeerServiceV1;
@@ -45,6 +42,19 @@ public class BeerControllerV1 {
         return ResponseEntity
                 .status(CREATED)
                 .body(new CreateNewBeerResponseV1(createdBeer));
+    }
+
+    @PutMapping("/{beerId}")
+    public ResponseEntity<Void> updateBeer(
+            @RequestParam(name = "zoneId", defaultValue = "Asia/Kolkata") ZoneId zoneId,
+            @PathVariable String beerId,
+            @RequestBody UpdateBeerRequestV1 updateBeer) {
+        updateBeer.setId(beerId);
+        beerService.updateBeer(zoneId, updateBeer);
+
+        return ResponseEntity
+                .noContent()
+                .build();
     }
 
     @DeleteMapping("/{beerId}")

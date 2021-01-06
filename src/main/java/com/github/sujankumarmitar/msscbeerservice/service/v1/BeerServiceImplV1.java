@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.ZoneId;
+import java.util.Optional;
 
 import static java.lang.String.valueOf;
 import static java.time.ZonedDateTime.now;
@@ -43,6 +44,7 @@ public class BeerServiceImplV1 implements BeerServiceV1 {
 
     @Override
     public void updateBeer(ZoneId zoneId, BeerV1 beerToUpdate) throws BeerNotFoundExceptionV1 {
+
         beerToUpdate = BeerBuilderImplV1
                 .builder()
                 .fromBeer(beerToUpdate)

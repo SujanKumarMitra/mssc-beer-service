@@ -13,4 +13,5 @@ public interface BeerV1Repository extends JpaRepository<BeerEntityV1, String> {
     @Modifying
     @Transactional
     Long deleteBeerEntityV1ById(String id);
+
 }
