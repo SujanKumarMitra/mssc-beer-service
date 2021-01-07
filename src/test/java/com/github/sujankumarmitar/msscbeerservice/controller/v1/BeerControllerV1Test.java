@@ -1,5 +1,6 @@
 package com.github.sujankumarmitar.msscbeerservice.controller.v1;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.sujankumarmitar.msscbeerservice.dto.v1.CreateNewBeerRequestV1;
 import com.github.sujankumarmitar.msscbeerservice.dto.v1.UpdateBeerRequestV1;
@@ -36,8 +37,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -65,6 +65,8 @@ class BeerControllerV1Test {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
                 .apply(documentationConfiguration(restDocumentation))
                 .build();
+
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_ABSENT);
     }
 
     @Test
@@ -89,7 +91,8 @@ class BeerControllerV1Test {
                 .perform(get(REQUEST_PATH + "/{beerId}", VALID_BEER_ID))
                 .andDo(print())
                 .andDo(document(
-                        "getBeer", pathParameters(
+                        "getBeer",
+                        pathParameters(
                                 parameterWithName("beerId").description("id of beer")
                         )))
                 .andExpect(status().isOk())
@@ -114,6 +117,7 @@ class BeerControllerV1Test {
             BeerV1 beerGiven = invocation.<BeerV1>getArgument(1);
             return BeerBuilderImplV1
                     .builder()
+                    .fromBeer(beerGiven)
                     .withId(valueOf(UUID.randomUUID()))
                     .withCreatedAt(now(id))
                     .withLastModifiedAt(now(id))
@@ -125,11 +129,16 @@ class BeerControllerV1Test {
         MvcResult mvcResult = mockMvc
                 .perform(
                         post(REQUEST_PATH)
+                                .param("zoneId", "Asia/Kolkata")
                                 .contentType(APPLICATION_JSON)
                                 .content(mapper.writeValueAsString(request)))
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.createdBeer").exists())
+                .andDo(document("saveBeer",
+                        requestParameters(
+                                parameterWithName("zoneId").description("Client's zoneId")
+                        )))
                 .andReturn();
 
 
@@ -143,7 +152,6 @@ class BeerControllerV1Test {
 
         UpdateBeerRequestV1 request = new UpdateBeerRequestV1();
 
-        request.setId(VALID_BEER_ID);
         request.setName("Updated Name");
         request.setPrice(new BigDecimal("345.67"));
         request.setStyle(BeerStyleV1.GOSE);
@@ -153,9 +161,17 @@ class BeerControllerV1Test {
                 .perform(
                         put(REQUEST_PATH + "/{beerId}", VALID_BEER_ID)
                                 .contentType(APPLICATION_JSON)
-                                .content(mapper.writeValueAsString(request)))
+                                .content(mapper.writeValueAsString(request))
+                                .param("zoneId", "Asia/Kolkata"))
 
                 .andExpect(status().isNoContent())
+                .andDo(document("updateBeer",
+                        pathParameters(
+                                parameterWithName("beerId").description("id of beer")
+                        ),
+                        requestParameters(
+                                parameterWithName("zoneId").description("client's zone id")
+                        )))
                 .andReturn();
 
     }
@@ -170,6 +186,9 @@ class BeerControllerV1Test {
                 .perform(
                         delete(REQUEST_PATH + "/{beerId}", VALID_BEER_ID))
                 .andExpect(status().isNoContent())
+                .andDo(document("deleteBeer",
+                        pathParameters(
+                                parameterWithName("beerId").description("id of beer"))))
                 .andReturn();
 
     }
