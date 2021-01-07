@@ -1,1 +1,24 @@
+[[request_path_parameters]]
+== Path parameters
+
+include::{snippets}/getBeer/path-parameters.adoc[]
+
+[[example_curl_request]]
+== Curl request
+
 include::{snippets}/getBeer/curl-request.adoc[]
+
+[[example_http_request]]
+== HTTP request
+
+include::{snippets}/getBeer/http-request.adoc[]
+
+[[example_httpie_request]]
+== HTTPIE request
+
+include::{snippets}/getBeer/httpie-request.adoc[]
+
+[[example_http_response]]
+== HTTP response
+
+include::{snippets}/getBeer/http-response.adoc[]

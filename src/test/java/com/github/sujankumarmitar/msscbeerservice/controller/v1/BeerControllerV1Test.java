@@ -8,6 +8,7 @@ import com.github.sujankumarmitar.msscbeerservice.model.v1.BeerBuilderImplV1;
 import com.github.sujankumarmitar.msscbeerservice.model.v1.BeerStyleV1;
 import com.github.sujankumarmitar.msscbeerservice.model.v1.BeerV1;
 import com.github.sujankumarmitar.msscbeerservice.service.v1.BeerServiceV1;
+import com.github.sujankumarmitar.msscbeerservice.util.ConstrainedFields;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,6 +38,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -126,6 +128,8 @@ class BeerControllerV1Test {
                 .when(beerService)
                 .createBeer(any(), any());
 
+        ConstrainedFields fields = new ConstrainedFields(CreateNewBeerRequestV1.class);
+
         MvcResult mvcResult = mockMvc
                 .perform(
                         post(REQUEST_PATH)
@@ -138,6 +142,13 @@ class BeerControllerV1Test {
                 .andDo(document("saveBeer",
                         requestParameters(
                                 parameterWithName("zoneId").description("Client's zoneId")
+                        ),
+                        requestFields(
+                                fields.withPath("name").description("Name of beer"),
+                                fields.withPath("price").description("Price of beer"),
+                                fields.withPath("style").description("Style of beer"),
+                                fields.withPath("upc").description("UPC code of beer"),
+                                fields.withPath("quantityOnHand").description("quantity on hand")
                         )))
                 .andReturn();
 
@@ -157,6 +168,8 @@ class BeerControllerV1Test {
         request.setStyle(BeerStyleV1.GOSE);
         request.setQuantityOnHand(200);
 
+        ConstrainedFields fields = new ConstrainedFields(UpdateBeerRequestV1.class);
+
         MvcResult mvcResult = mockMvc
                 .perform(
                         put(REQUEST_PATH + "/{beerId}", VALID_BEER_ID)
@@ -171,6 +184,12 @@ class BeerControllerV1Test {
                         ),
                         requestParameters(
                                 parameterWithName("zoneId").description("client's zone id")
+                        ),
+                        requestFields(
+                                fields.withPath("name").description("Name of beer"),
+                                fields.withPath("price").description("Price of beer"),
+                                fields.withPath("style").description("Style of beer"),
+                                fields.withPath("quantityOnHand").description("quantity on hand")
                         )))
                 .andReturn();
 
